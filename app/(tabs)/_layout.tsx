@@ -1,9 +1,9 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { Tabs } from "expo-router";
+import React from "react";
 
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { TabBarIcon } from "@/components/navigation/TabBarIcon";
+import { Colors } from "@/constants/Colors";
+import { useColorScheme } from "@/hooks/useColorScheme";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -11,24 +11,31 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: false,
-      }}>
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Truco',
+          title: "Truco",
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'cards' : 'cards-outline'} color={color} />
+            <TabBarIcon
+              name={focused ? "cards" : "cards-outline"}
+              color={color}
+            />
           ),
         }}
       />
       <Tabs.Screen
         name="canastra"
         options={{
-          title: 'Canastra',
+          title: "Canastra",
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'cards-spade' : 'cards-spade-outline'} color={color} />
+            <TabBarIcon
+              name={focused ? "cards-spade" : "cards-spade-outline"}
+              color={color}
+            />
           ),
         }}
       />

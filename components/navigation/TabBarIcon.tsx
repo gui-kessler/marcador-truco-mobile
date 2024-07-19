@@ -1,4 +1,4 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 type IconProps = {
   name: string;
@@ -6,5 +6,11 @@ type IconProps = {
 };
 
 export function TabBarIcon(props: IconProps) {
-  return <MaterialCommunityIcons name={props.name as any} size={28} color={props.color} />
+  return (
+    <MaterialCommunityIcons
+      name={props.name as any}
+      size={28}
+      color={props.color}
+    />
+  );
 }
