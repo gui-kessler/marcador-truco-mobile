@@ -1,77 +1,137 @@
-import { Image, Platform, StyleSheet } from "react-native";
+import { Alert, Button, Image, Platform, StyleSheet } from "react-native";
 
-import { HelloWave } from "@/components/HelloWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import React from "react";
 
 export default function HomeScreen() {
+  const [marcadorNos, setMarcadorNos] = React.useState(0);
+  const [marcadorEles, setMarcadorEles] = React.useState(0);
+  const [multiplier, setMultiplier] = React.useState(1);
+
+  const reset = () => {
+    setMarcadorNos(0);
+    setMarcadorEles(0);
+    setMultiplier(1);
+  };
+
+  const onSetMarcadorNos = () => {
+    setMultiplier(1);
+    if (marcadorNos >= 12) {
+      showAlert("Nós ganhamos!");
+      reset();
+    }
+
+    if (marcadorNos < 0) {
+      setMarcadorNos(0);
+    }
+  };
+
+  const onSetMarcadorEles = () => {
+    setMultiplier(1);
+    if (marcadorEles >= 12) {
+      showAlert("Eles ganharam!");
+      reset();
+    }
+
+    if (marcadorEles < 0) {
+      setMarcadorEles(0);
+    }
+  };
+
+  const onChangeMultiplier = () => {
+    if (multiplier === 1) {
+      setMultiplier(3);
+    } else if (multiplier === 3) {
+      setMultiplier(6);
+    } else if (multiplier === 6) {
+      setMultiplier(9);
+    } else if (multiplier === 9) {
+      setMultiplier(12);
+    } else {
+      setMultiplier(1);
+    }
+  }
+
+  const multiplierLabel = React.useMemo(() => {
+    if (multiplier === 1) {
+      return "Truco";
+    } else if (multiplier === 3) {
+      return "Seis";
+    } else if (multiplier === 6) {
+      return "Nove";
+    } else if (multiplier === 9) {
+      return "Doze";
+    } else if (multiplier === 12) {
+      return "Doze";
+    }
+
+    return "Truco";
+  }, [multiplier]);
+
+  const showAlert = (title: string) => Alert.alert(title);
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
-      headerImage={
-        <Image
-          source={require("@/assets/images/partial-react-logo.png")}
-          style={styles.reactLogo}
-        />
-      }
     >
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit{" "}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText>
-          {" "}
-          to see changes. Press{" "}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: "cmd + d", android: "cmd + m" })}
-          </ThemedText>{" "}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this
-          starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{" "}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText>
-          {" "}
-          to get a fresh <ThemedText type="defaultSemiBold">app</ThemedText>
-          {" "}
-          directory. This will move the current{" "}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{" "}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
+      <ThemedView
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+      >
+        <ThemedView style={styles.horizontalContainer}>
+          <ThemedText type="title">Nós</ThemedText>
+          <ThemedText type="title">Eles</ThemedText>
+        </ThemedView>
+
+        <ThemedView style={styles.horizontalContainer}>
+          <ThemedText
+            onPress={() => setMarcadorNos(marcadorNos + multiplier)}
+            onLongPress={() => setMarcadorNos(marcadorNos - 1)}
+            onTextLayout={() => onSetMarcadorNos()}
+            style={styles.marcador}
+          >
+            {marcadorNos}
+          </ThemedText>
+          <ThemedText
+            onPress={() => setMarcadorEles(marcadorEles + multiplier)}
+            onLongPress={() => setMarcadorEles(marcadorEles - 1)}
+            onTextLayout={() => onSetMarcadorEles()}
+            style={styles.marcador}
+          >
+            {marcadorEles}
+          </ThemedText>
+        </ThemedView>
+        <ThemedView style={{flexGrow: 1}}></ThemedView>
+        <ThemedView style={{...styles.horizontalContainer, ...{
+          justifyContent: "center",
+          marginTop: "40%",
+        }}}>
+          <Button 
+            onPress={() => onChangeMultiplier()} 
+            title={multiplierLabel}></Button>
+        </ThemedView>
       </ThemedView>
     </ParallaxScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  marcador: {
+    flexDirection: "column",
+    textAlign: "center",
+    fontSize: 120,
+    lineHeight: 360,
+  },
+  horizontalContainer: {
+    display: "flex",
     flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: "absolute",
+    justifyContent: "space-between",
+    padding: 20,
+    textAlign: "center",
   },
 });
