@@ -1,4 +1,4 @@
-import { Alert, Button, Image, Platform, StyleSheet } from "react-native";
+import { Alert, Button, Image, Platform, Pressable, StyleSheet } from "react-native";
 
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
@@ -16,7 +16,8 @@ export default function HomeScreen() {
     setMultiplier(1);
   };
 
-  const onSetMarcadorNos = () => {
+  const changeMarcadorNos = () => {
+    setMarcadorNos(marcadorNos + multiplier);
     setMultiplier(1);
     if (marcadorNos >= 12) {
       showAlert("Nós ganhamos!");
@@ -28,7 +29,8 @@ export default function HomeScreen() {
     }
   };
 
-  const onSetMarcadorEles = () => {
+  const changeMarcadorEles = () => {
+    setMarcadorEles(marcadorEles + multiplier);
     setMultiplier(1);
     if (marcadorEles >= 12) {
       showAlert("Eles ganharam!");
@@ -40,7 +42,7 @@ export default function HomeScreen() {
     }
   };
 
-  const onChangeMultiplier = () => {
+  const onPressMultiplier = () => {
     if (multiplier === 1) {
       setMultiplier(3);
     } else if (multiplier === 3) {
@@ -80,7 +82,6 @@ export default function HomeScreen() {
         style={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-between",
         }}
       >
         <ThemedView style={styles.horizontalContainer}>
@@ -89,32 +90,29 @@ export default function HomeScreen() {
         </ThemedView>
 
         <ThemedView style={styles.horizontalContainer}>
-          <ThemedText
-            onPress={() => setMarcadorNos(marcadorNos + multiplier)}
+          <Pressable
+            onPress={() => changeMarcadorNos()}
             onLongPress={() => setMarcadorNos(marcadorNos - 1)}
-            onTextLayout={() => onSetMarcadorNos()}
+            delayLongPress={300}
+            hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
             style={styles.marcador}
           >
-            {marcadorNos}
-          </ThemedText>
-          <ThemedText
-            onPress={() => setMarcadorEles(marcadorEles + multiplier)}
+            <ThemedText>{marcadorNos}</ThemedText>
+          </Pressable>
+          <Pressable
+            onPress={() => changeMarcadorEles()}
             onLongPress={() => setMarcadorEles(marcadorEles - 1)}
-            onTextLayout={() => onSetMarcadorEles()}
+            delayLongPress={300}
             style={styles.marcador}
           >
-            {marcadorEles}
-          </ThemedText>
+            <ThemedText>{marcadorEles}</ThemedText>
+          </Pressable>
         </ThemedView>
         <ThemedView style={{flexGrow: 1}}></ThemedView>
-        <ThemedView style={{...styles.horizontalContainer, ...{
-          justifyContent: "center",
-          marginTop: "40%",
-        }}}>
-          <Button 
-            onPress={() => onChangeMultiplier()} 
-            title={multiplierLabel}></Button>
-        </ThemedView>
+        <Pressable style={styles.multiplierButton}
+          onPress={() => onPressMultiplier()}>
+          <ThemedText>{multiplierLabel}</ThemedText>
+        </Pressable>
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -131,6 +129,10 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    padding: 20,
+    textAlign: "center",
+  },
+  multiplierButton: {
     padding: 20,
     textAlign: "center",
   },
