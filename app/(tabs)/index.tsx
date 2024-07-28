@@ -16,29 +16,31 @@ export default function HomeScreen() {
     setMultiplier(1);
   };
 
-  const changeMarcadorNos = () => {
+  const changeMarcadorNos = (diminuir: boolean = false) => {
+    if (diminuir) {
+      setMarcadorNos(marcadorNos - (marcadorNos > 0 ? 1 : 0));
+      return;
+    }
+    
     setMarcadorNos(marcadorNos + multiplier);
     setMultiplier(1);
-    if (marcadorNos >= 12) {
+    if (marcadorNos >= 11) {
       showAlert("Nós ganhamos!");
       reset();
     }
-
-    if (marcadorNos < 0) {
-      setMarcadorNos(0);
-    }
   };
 
-  const changeMarcadorEles = () => {
-    setMarcadorEles(marcadorEles + multiplier);
-    setMultiplier(1);
-    if (marcadorEles >= 12) {
-      showAlert("Eles ganharam!");
-      reset();
+  const changeMarcadorEles = (diminuir: boolean = false) => {
+    if (diminuir && marcadorEles > 0) {
+      setMarcadorEles(marcadorEles - 1);
+      return;
     }
 
-    if (marcadorEles < 0) {
-      setMarcadorEles(0);
+    setMarcadorEles(marcadorEles + multiplier);
+    setMultiplier(1);
+    if (marcadorEles >= 11) {
+      showAlert("Eles ganharam!");
+      reset();
     }
   };
 
@@ -84,7 +86,7 @@ export default function HomeScreen() {
           flexDirection: "column",
         }}
       >
-        <ThemedView style={styles.horizontalContainer}>
+        <ThemedView style={{...styles.horizontalContainer, marginTop: "20%"}}>
           <ThemedText type="title">Nós</ThemedText>
           <ThemedText type="title">Eles</ThemedText>
         </ThemedView>
@@ -92,20 +94,17 @@ export default function HomeScreen() {
         <ThemedView style={styles.horizontalContainer}>
           <Pressable
             onPress={() => changeMarcadorNos()}
-            onLongPress={() => setMarcadorNos(marcadorNos - 1)}
+            onLongPress={() => changeMarcadorNos(true)}
             delayLongPress={300}
-            hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
-            style={styles.marcador}
           >
-            <ThemedText>{marcadorNos}</ThemedText>
+            <ThemedText style={{...styles.marcador, textAlign: "left"}}>{marcadorNos}</ThemedText>
           </Pressable>
           <Pressable
             onPress={() => changeMarcadorEles()}
-            onLongPress={() => setMarcadorEles(marcadorEles - 1)}
+            onLongPress={() => changeMarcadorEles(true)}
             delayLongPress={300}
-            style={styles.marcador}
           >
-            <ThemedText>{marcadorEles}</ThemedText>
+            <ThemedText style={{...styles.marcador, textAlign: "right"}}>{marcadorEles}</ThemedText>
           </Pressable>
         </ThemedView>
         <ThemedView style={{flexGrow: 1}}></ThemedView>
@@ -121,9 +120,10 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   marcador: {
     flexDirection: "column",
-    textAlign: "center",
     fontSize: 120,
-    lineHeight: 360,
+    lineHeight: 160,
+    marginTop: "100%",
+    width: "100%",
   },
   horizontalContainer: {
     display: "flex",
