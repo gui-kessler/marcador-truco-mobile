@@ -1,4 +1,11 @@
-import { Alert, Button, Image, Platform, Pressable, StyleSheet } from "react-native";
+import {
+  Alert,
+  Button,
+  Image,
+  Platform,
+  Pressable,
+  StyleSheet,
+} from "react-native";
 
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
@@ -21,7 +28,7 @@ export default function HomeScreen() {
       setMarcadorNos(marcadorNos - (marcadorNos > 0 ? 1 : 0));
       return;
     }
-    
+
     setMarcadorNos(marcadorNos + multiplier);
     setMultiplier(1);
     if (marcadorNos >= 11) {
@@ -56,22 +63,22 @@ export default function HomeScreen() {
     } else {
       setMultiplier(1);
     }
-  }
+  };
 
   const multiplierLabel = React.useMemo(() => {
     if (multiplier === 1) {
-      return "Truco";
+      return "TRUCO";
     } else if (multiplier === 3) {
-      return "Seis";
+      return "SEIS";
     } else if (multiplier === 6) {
-      return "Nove";
+      return "NOVE";
     } else if (multiplier === 9) {
-      return "Doze";
+      return "DOZE";
     } else if (multiplier === 12) {
-      return "Doze";
+      return "ZERAR";
     }
 
-    return "Truco";
+    return "TRUCO";
   }, [multiplier]);
 
   const showAlert = (title: string) => Alert.alert(title);
@@ -84,9 +91,10 @@ export default function HomeScreen() {
         style={{
           display: "flex",
           flexDirection: "column",
+          justifyContent: "space-between"
         }}
       >
-        <ThemedView style={{...styles.horizontalContainer, marginTop: "20%"}}>
+        <ThemedView style={styles.horizontalContainer}>
           <ThemedText type="title">Nós</ThemedText>
           <ThemedText type="title">Eles</ThemedText>
         </ThemedView>
@@ -97,21 +105,38 @@ export default function HomeScreen() {
             onLongPress={() => changeMarcadorNos(true)}
             delayLongPress={300}
           >
-            <ThemedText style={{...styles.marcador, textAlign: "left"}}>{marcadorNos}</ThemedText>
+            <ThemedText style={styles.marcador}>{marcadorNos}</ThemedText>
           </Pressable>
           <Pressable
             onPress={() => changeMarcadorEles()}
             onLongPress={() => changeMarcadorEles(true)}
             delayLongPress={300}
           >
-            <ThemedText style={{...styles.marcador, textAlign: "right"}}>{marcadorEles}</ThemedText>
+            <ThemedText style={styles.marcador}>{marcadorEles}</ThemedText>
           </Pressable>
         </ThemedView>
-        <ThemedView style={{flexGrow: 1}}></ThemedView>
-        <Pressable style={styles.multiplierButton}
-          onPress={() => onPressMultiplier()}>
-          <ThemedText>{multiplierLabel}</ThemedText>
-        </Pressable>
+        
+        <ThemedView style={{
+          flexDirection: "row",
+          justifyContent: "center",
+        }}>
+          <Pressable
+          style={{
+            padding: 20,
+            borderColor: "darkblue",
+            borderWidth: 1,
+            borderRadius: 10,
+            width: 200,
+          }}
+            onPress={() => onPressMultiplier()}
+          >
+            <ThemedText style={{
+              fontSize: 40, 
+              lineHeight: 50,
+              textAlign: "center",
+            }}>{multiplierLabel}</ThemedText>
+          </Pressable>
+        </ThemedView>
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -119,20 +144,14 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   marcador: {
-    flexDirection: "column",
-    fontSize: 120,
-    lineHeight: 160,
-    marginTop: "100%",
-    width: "100%",
+    fontSize: 100,
+    lineHeight: 80,
+    paddingTop: 20,
+    paddingBottom: 20,
   },
   horizontalContainer: {
-    display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: 20,
-    textAlign: "center",
-  },
-  multiplierButton: {
     padding: 20,
     textAlign: "center",
   },
