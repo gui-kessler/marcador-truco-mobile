@@ -1,13 +1,11 @@
 import {
   Alert,
-  Button,
-  Image,
-  Platform,
   Pressable,
+  ScrollView,
   StyleSheet,
+  View,
 } from "react-native";
 
-import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import React from "react";
@@ -84,43 +82,38 @@ export default function HomeScreen() {
   const showAlert = (title: string) => Alert.alert(title);
 
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
+    <ThemedView
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        justifyContent: "space-around",
+      }}
     >
-      <ThemedView
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between"
-        }}
-      >
-        <ThemedView style={styles.horizontalContainer}>
-          <ThemedText type="title">Nós</ThemedText>
-          <ThemedText type="title">Eles</ThemedText>
-        </ThemedView>
+      <ThemedView style={{...styles.horizontalContainer}}>
+        <ThemedText type="title">Nós</ThemedText>
+        <ThemedText type="title">Eles</ThemedText>
+      </ThemedView>
 
-        <ThemedView style={styles.horizontalContainer}>
-          <Pressable
-            onPress={() => changeMarcadorNos()}
-            onLongPress={() => changeMarcadorNos(true)}
-            delayLongPress={300}
-          >
-            <ThemedText style={styles.marcador}>{marcadorNos}</ThemedText>
-          </Pressable>
-          <Pressable
-            onPress={() => changeMarcadorEles()}
-            onLongPress={() => changeMarcadorEles(true)}
-            delayLongPress={300}
-          >
-            <ThemedText style={styles.marcador}>{marcadorEles}</ThemedText>
-          </Pressable>
-        </ThemedView>
-        
-        <ThemedView style={{
-          flexDirection: "row",
-          justifyContent: "center",
-        }}>
-          <Pressable
+      <ThemedView style={{...styles.horizontalContainer}}>
+        <Pressable
+          onPress={() => changeMarcadorNos()}
+          onLongPress={() => changeMarcadorNos(true)}
+          delayLongPress={300}
+        >
+          <ThemedText style={styles.marcador}>{marcadorNos}</ThemedText>
+        </Pressable>
+        <Pressable
+          onPress={() => changeMarcadorEles()}
+          onLongPress={() => changeMarcadorEles(true)}
+          delayLongPress={300}
+        >
+          <ThemedText style={styles.marcador}>{marcadorEles}</ThemedText>
+        </Pressable>
+      </ThemedView>
+
+      <ThemedView style={{flexDirection: "row", justifyContent: "center"}}>
+        <Pressable
           style={{
             padding: 20,
             borderColor: "darkblue",
@@ -128,17 +121,20 @@ export default function HomeScreen() {
             borderRadius: 10,
             width: 200,
           }}
-            onPress={() => onPressMultiplier()}
-          >
-            <ThemedText style={{
-              fontSize: 40, 
+          onPress={() => onPressMultiplier()}
+        >
+          <ThemedText
+            style={{
+              fontSize: 40,
               lineHeight: 50,
               textAlign: "center",
-            }}>{multiplierLabel}</ThemedText>
-          </Pressable>
-        </ThemedView>
+            }}
+          >
+            {multiplierLabel}
+          </ThemedText>
+        </Pressable>
       </ThemedView>
-    </ParallaxScrollView>
+    </ThemedView>
   );
 }
 
