@@ -1,19 +1,19 @@
 import {
   Alert,
   Pressable,
-  ScrollView,
   StyleSheet,
-  View,
 } from "react-native";
 
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import React from "react";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 export default function HomeScreen() {
   const [marcadorNos, setMarcadorNos] = React.useState(0);
   const [marcadorEles, setMarcadorEles] = React.useState(0);
   const [multiplier, setMultiplier] = React.useState(1);
+  const color = useThemeColor({ light: "", dark: "" }, 'text');
 
   const reset = () => {
     setMarcadorNos(0);
@@ -100,6 +100,7 @@ export default function HomeScreen() {
           onPress={() => changeMarcadorNos()}
           onLongPress={() => changeMarcadorNos(true)}
           delayLongPress={300}
+          hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
         >
           <ThemedText style={styles.marcador}>{marcadorNos}</ThemedText>
         </Pressable>
@@ -107,6 +108,7 @@ export default function HomeScreen() {
           onPress={() => changeMarcadorEles()}
           onLongPress={() => changeMarcadorEles(true)}
           delayLongPress={300}
+          hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
         >
           <ThemedText style={styles.marcador}>{marcadorEles}</ThemedText>
         </Pressable>
@@ -116,7 +118,7 @@ export default function HomeScreen() {
         <Pressable
           style={{
             padding: 20,
-            borderColor: "darkblue",
+            borderColor: color,
             borderWidth: 1,
             borderRadius: 10,
             width: 200,
@@ -140,15 +142,16 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   marcador: {
-    fontSize: 100,
-    lineHeight: 80,
+    fontSize: 120,
+    lineHeight: 100,
     paddingTop: 20,
     paddingBottom: 20,
+    textAlign: "center",
   },
   horizontalContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: 20,
+    padding: 40,
     textAlign: "center",
   },
 });
