@@ -1,8 +1,4 @@
-import {
-  Alert,
-  Pressable,
-  StyleSheet,
-} from "react-native";
+import { Alert, Pressable, StyleSheet } from "react-native";
 
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -13,7 +9,19 @@ export default function HomeScreen() {
   const [marcadorNos, setMarcadorNos] = React.useState(0);
   const [marcadorEles, setMarcadorEles] = React.useState(0);
   const [multiplier, setMultiplier] = React.useState(1);
-  const color = useThemeColor({ light: "", dark: "" }, 'text');
+  const color = useThemeColor({ light: "", dark: "" }, "text");
+
+  React.useEffect(() => {
+    if (marcadorNos >= 12) {
+      showAlert("Nós vencemos!");
+      reset();
+    }
+
+    if (marcadorEles >= 12) {
+      showAlert("Eles venceram!");
+      reset();
+    }
+  }, [marcadorNos, marcadorEles]);
 
   const reset = () => {
     setMarcadorNos(0);
@@ -29,10 +37,6 @@ export default function HomeScreen() {
 
     setMarcadorNos(marcadorNos + multiplier);
     setMultiplier(1);
-    if (marcadorNos >= 11) {
-      showAlert("Nós ganhamos!");
-      reset();
-    }
   };
 
   const changeMarcadorEles = (diminuir: boolean = false) => {
@@ -43,10 +47,6 @@ export default function HomeScreen() {
 
     setMarcadorEles(marcadorEles + multiplier);
     setMultiplier(1);
-    if (marcadorEles >= 11) {
-      showAlert("Eles ganharam!");
-      reset();
-    }
   };
 
   const onPressMultiplier = () => {
@@ -90,17 +90,17 @@ export default function HomeScreen() {
         justifyContent: "space-around",
       }}
     >
-      <ThemedView style={{...styles.horizontalContainer}}>
+      <ThemedView style={{ ...styles.horizontalContainer }}>
         <ThemedText type="title">Nós</ThemedText>
         <ThemedText type="title">Eles</ThemedText>
       </ThemedView>
 
-      <ThemedView style={{...styles.horizontalContainer}}>
+      <ThemedView style={{ ...styles.horizontalContainer }}>
         <Pressable
           onPress={() => changeMarcadorNos()}
           onLongPress={() => changeMarcadorNos(true)}
           delayLongPress={300}
-          hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
+          hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
         >
           <ThemedText style={styles.marcador}>{marcadorNos}</ThemedText>
         </Pressable>
@@ -108,13 +108,13 @@ export default function HomeScreen() {
           onPress={() => changeMarcadorEles()}
           onLongPress={() => changeMarcadorEles(true)}
           delayLongPress={300}
-          hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
+          hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
         >
           <ThemedText style={styles.marcador}>{marcadorEles}</ThemedText>
         </Pressable>
       </ThemedView>
 
-      <ThemedView style={{flexDirection: "row", justifyContent: "center"}}>
+      <ThemedView style={{ flexDirection: "row", justifyContent: "center" }}>
         <Pressable
           style={{
             padding: 20,

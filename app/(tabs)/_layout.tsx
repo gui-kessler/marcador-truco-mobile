@@ -20,10 +20,7 @@ export default function TabLayout() {
         options={{
           title: "Truco",
           tabBarIcon: ({ color, focused }) => (
-            <Icon
-              name={focused ? "cards" : "cards-outline"}
-              color={color}
-            />
+            <Icon name={focused ? "cards" : "cards-outline"} color={color} />
           ),
         }}
       />
