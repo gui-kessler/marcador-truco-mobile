@@ -1,9 +1,9 @@
-name: build-dev
-run-name: Build Dev
+name: build-preview
+run-name: Build preview
 on:
   push:
     branches:
-      - dev
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,4 +26,4 @@ jobs:
         run: npm install
 
       - name: 🚀 Build app
-        run: eas build -p android --profile development
+        run: eas build -p android --profile preview --non-interactive
